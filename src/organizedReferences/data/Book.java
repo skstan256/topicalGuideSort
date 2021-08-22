@@ -1,7 +1,10 @@
 package organizedReferences.data;
 
+import organizedReferences.ReferenceMatch;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 
 public class Book implements Comparable<Book>{
@@ -104,6 +107,46 @@ public class Book implements Comparable<Book>{
         bookOrder.put("A of F",88);
     }
 
+    public Book(String bookName) {
+        this.bookName = bookName;
+    }
+
+    public void input(ReferenceMatch match) {
+        int chapterNum = match.getChapter();
+        String firstChapterVerses = match.getFirstChapterVerses();
+        int secondChapterNum = match.getSecondChapter();
+        String entry = match.getEntryTitle();
+
+        //MBP (check that this catches everything correctly)
+
+        //if only normal chapter/verses combo
+        if (firstChapterVerses == null || secondChapterNum == 0) {
+            chapters.putIfAbsent(chapterNum, new Chapter());
+            Chapter currentChapter = chapters.get(chapterNum);
+            Reference ref = new Reference(match.getVerses(), entry);
+            currentChapter.input(ref);
+        }
+        //if both are present
+        else {
+            chapters.putIfAbsent(chapterNum, new Chapter());
+            Chapter currentChapter = chapters.get(chapterNum);
+            Reference ref = new Reference(match.getFirstChapterVerses(), entry);
+            currentChapter.input(ref);
+
+            chapters.putIfAbsent(secondChapterNum, new Chapter());
+            currentChapter = chapters.get(secondChapterNum);
+            ref = new Reference(match.getVerses(), entry);
+            currentChapter.input(ref);
+        }
+
+        /*
+        books.putIfAbsent(bookName, new Book(bookName));
+        Book currentBook = books.get(bookName);
+        currentBook.input(match);
+
+         */
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Reference)) {
@@ -134,7 +177,14 @@ public class Book implements Comparable<Book>{
         return Integer.compare(key, key2);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder book = new StringBuilder(bookName + "\n");
+        Set<Integer> chapterSet = chapters.keySet();
+        for (Integer chapterNum : chapterSet) {
 
+        }
 
-
+        return book.toString();
+    }
 }

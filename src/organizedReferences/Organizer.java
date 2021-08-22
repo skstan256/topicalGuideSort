@@ -1,5 +1,7 @@
 package organizedReferences;
 
+import organizedReferences.data.Data;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -10,11 +12,12 @@ public class Organizer {
 
     private String currentEntry;
     private String currentBook;
-    private final Pattern entryPattern = Pattern.compile("^(?<entry>Jesus Christ[a-zA-z ,]*)$",Pattern.MULTILINE);
+    private Data entryInput;
+    private final Pattern entryPattern = Pattern.compile("^(?<entry>Jesus Christ[a-zA-z ,]*)$", Pattern.MULTILINE);
     private ArrayList<String> entryTitles;
     private ArrayList<String> entryBodies;
     private ArrayList<Integer> startingEntryIndices;
-    private final Pattern referencePattern = Pattern.compile("[\\( ]?(?<bookName>\\d? *?[a-zA-Z.&—\\–-]+)? ?(?<chapter>[\\d]+):((?<firstChapterVerses>[,\\d ]+)(-|\\–)(?<secondChapter>[\\d]+):)?(?<verses>[,\\d \\–-]+)[; ]?+");
+    private final Pattern referencePattern = Pattern.compile("[\\( ]?(?<bookName>\\d? *?[a-zA-Z.&—\\–-]+)? ?(?<chapter>[\\d]+):((?<firstChapterVerses>[,\\d ]+)(-|\\–)(?<secondChapter>[\\d]+):)?(?<verses>[,\\d \\–-]+)[; ]?+", Pattern.MULTILINE);
 
 
     public static void main(String[] args) throws FileNotFoundException, FileEmptyException {
@@ -36,7 +39,9 @@ public class Organizer {
     }
 
     public void organize(String data) {
+
         Matcher entryMatcher = entryPattern.matcher(data);
+        entryInput = new Data();
         //System.out.println(data);
 
         //get a collection of all entry matches
@@ -67,15 +72,43 @@ public class Organizer {
         }
 
         //go through each entry and find all reference matches
-        for (String entry : entryBodies) {
+
+        String previousBookName = "Unknown";
+        for (int i = 0; i < entryBodies.size(); ++i) {
+            String entry = entryBodies.get(i);
             Matcher referenceMatcher = referencePattern.matcher(entry);
             while (referenceMatcher.find()) {
 
+                ReferenceMatch ref = new ReferenceMatch();
+
+                //title
+                ref.setEntryTitle(entryTitles.get(i));
+
+                //book name
+                String bookName = referenceMatcher.group("bookName");
+                if (bookName != null) {
+                    ref.setBookName(bookName);
+                    previousBookName = bookName;
+                }
+                else {
+                    ref.setBookName(previousBookName);
+                }
+
+                //chapters and verses
+                if (referenceMatcher.group("chapter") != null) {
+                    ref.setChapter(Integer.parseInt(referenceMatcher.group("chapter")));
+                }
+                if (referenceMatcher.group("secondChapter") != null) {
+                    ref.setFirstChapterVerses(referenceMatcher.group("firstChapterVerses"));
+                    ref.setSecondChapter(Integer.parseInt(referenceMatcher.group("secondChapter")));
+                }
+                ref.setVerses(referenceMatcher.group("verses"));
+
+                //put in data
+                entryInput.input(ref);
             }
 
         }
-
-
     }
 
     /*
