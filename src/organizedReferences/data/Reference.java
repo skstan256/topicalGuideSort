@@ -43,6 +43,6 @@ public class Reference implements Comparable<Reference> {
 
     @Override
     public String toString() {
-        return verses + ", " + entry + "\n";
+        return verses.trim() + ", " + entry + "\n";
     }
 }

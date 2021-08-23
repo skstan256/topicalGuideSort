@@ -1,11 +1,9 @@
 package organizedReferences.data;
 
+import com.sun.source.tree.Tree;
 import organizedReferences.ReferenceMatch;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
+import java.util.*;
 
 public class Book implements Comparable<Book>{
     private SortedMap<Integer, Chapter> chapters;
@@ -109,6 +107,7 @@ public class Book implements Comparable<Book>{
 
     public Book(String bookName) {
         this.bookName = bookName;
+        chapters = new TreeMap<>();
     }
 
     public void input(ReferenceMatch match) {
@@ -121,19 +120,19 @@ public class Book implements Comparable<Book>{
 
         //if only normal chapter/verses combo
         if (firstChapterVerses == null || secondChapterNum == 0) {
-            chapters.putIfAbsent(chapterNum, new Chapter());
+            chapters.putIfAbsent(chapterNum, new Chapter(chapterNum));
             Chapter currentChapter = chapters.get(chapterNum);
             Reference ref = new Reference(match.getVerses(), entry);
             currentChapter.input(ref);
         }
         //if both are present
         else {
-            chapters.putIfAbsent(chapterNum, new Chapter());
+            chapters.putIfAbsent(chapterNum, new Chapter(chapterNum));
             Chapter currentChapter = chapters.get(chapterNum);
             Reference ref = new Reference(match.getFirstChapterVerses(), entry);
             currentChapter.input(ref);
 
-            chapters.putIfAbsent(secondChapterNum, new Chapter());
+            chapters.putIfAbsent(secondChapterNum, new Chapter(secondChapterNum));
             currentChapter = chapters.get(secondChapterNum);
             ref = new Reference(match.getVerses(), entry);
             currentChapter.input(ref);
@@ -182,7 +181,7 @@ public class Book implements Comparable<Book>{
         StringBuilder book = new StringBuilder(bookName + "\n");
         Set<Integer> chapterSet = chapters.keySet();
         for (Integer chapterNum : chapterSet) {
-
+            book.append(chapters.get(chapterNum).toString());
         }
 
         return book.toString();

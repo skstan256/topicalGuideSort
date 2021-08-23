@@ -12,7 +12,7 @@ public class Organizer {
 
     private String currentEntry;
     private String currentBook;
-    private Data entryInput;
+    private static Data entryInput;
     private final Pattern entryPattern = Pattern.compile("^(?<entry>Jesus Christ[a-zA-z ,]*)$", Pattern.MULTILINE);
     private ArrayList<String> entryTitles;
     private ArrayList<String> entryBodies;
@@ -29,7 +29,7 @@ public class Organizer {
             data = scanner.next();
             Organizer organizer = new Organizer();
             organizer.organize(data);
-            //System.out.println(data);
+            System.out.println(entryInput.toString());
         }
         else {
             throw new FileEmptyException();
@@ -65,11 +65,14 @@ public class Organizer {
             }
         }
 
+        /*
         System.out.println("Test");
         for (String entry: entryBodies) {
             System.out.println(entry);
             System.out.println("END ENTRY ********************************");
         }
+
+         */
 
         //go through each entry and find all reference matches
 
