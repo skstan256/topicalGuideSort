@@ -160,6 +160,8 @@ public class Book implements Comparable<Book>{
 
     @Override
     public int compareTo(Book o) {
+
+        //FIXME: It's not calling the compareTo on the book -- have another one for the strings in the map?
         int nameOrder = bookOrder.getOrDefault(bookName, 0);
         int secondNameOrder = bookOrder.getOrDefault(o.bookName, 0);
         if (nameOrder != secondNameOrder) {
