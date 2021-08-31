@@ -8,15 +8,15 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class Data {
-    SortedMap<String, Book> books;
+    SortedMap<BookName, Book> books;
 
     public Data() {
         books = new TreeMap<>();
     }
 
     public void input(ReferenceMatch match) {
-        String bookName = match.getBookName();
-        books.putIfAbsent(bookName, new Book(bookName));
+        BookName bookName = match.getBookName();
+        books.putIfAbsent(bookName, new Book(bookName.getBookName()));
         Book currentBook = books.get(bookName);
         currentBook.input(match);
     }
@@ -24,8 +24,8 @@ public class Data {
     @Override
     public String toString() {
         StringBuilder refList = new StringBuilder();
-        Set<String> bookSet = books.keySet();
-        for (String bookName : bookSet) {
+        Set<BookName> bookSet = books.keySet();
+        for (BookName bookName : bookSet) {
             refList.append(books.get(bookName).toString());
         }
 

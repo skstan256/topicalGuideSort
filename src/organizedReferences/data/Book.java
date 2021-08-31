@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Book implements Comparable<Book>{
     private SortedMap<Integer, Chapter> chapters;
-    private String bookName;
+    private final String bookName;
     private static Map<String, Integer> bookOrder;
     static {
         bookOrder = new HashMap<>();
@@ -102,7 +102,7 @@ public class Book implements Comparable<Book>{
         bookOrder.put("Abr.",85);
         bookOrder.put("JS—M",86);
         bookOrder.put("JS—H",87);
-        bookOrder.put("A of F",88);
+        bookOrder.put("F",88);
     }
 
     public Book(String bookName) {
@@ -129,13 +129,17 @@ public class Book implements Comparable<Book>{
         else {
             chapters.putIfAbsent(chapterNum, new Chapter(chapterNum));
             Chapter currentChapter = chapters.get(chapterNum);
-            Reference ref = new Reference(match.getFirstChapterVerses(), entry);
+            String combinedRef = match.getFirstChapterVerses() + " -- " + secondChapterNum + ":" + match.getVerses();
+            Reference ref = new Reference(combinedRef, entry);
             currentChapter.input(ref);
 
+            /*
             chapters.putIfAbsent(secondChapterNum, new Chapter(secondChapterNum));
             currentChapter = chapters.get(secondChapterNum);
             ref = new Reference(match.getVerses(), entry);
             currentChapter.input(ref);
+
+             */
         }
 
         /*

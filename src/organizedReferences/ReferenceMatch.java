@@ -1,5 +1,7 @@
 package organizedReferences;
 
+import organizedReferences.data.BookName;
+
 public class ReferenceMatch {
     String entryTitle;
     String bookName;
@@ -36,8 +38,8 @@ public class ReferenceMatch {
         return entryTitle;
     }
 
-    public String getBookName() {
-        return bookName;
+    public BookName getBookName() {
+        return new BookName(bookName);
     }
 
     public int getChapter() {
