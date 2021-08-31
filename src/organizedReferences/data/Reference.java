@@ -20,6 +20,10 @@ public class Reference implements Comparable<Reference> {
         return entry;
     }
 
+    public void appendEntry(String newEntry) {
+        entry = entry + "; " + newEntry;
+    }
+
     @Override
     public boolean equals(Object o) {
 

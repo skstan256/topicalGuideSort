@@ -13,8 +13,19 @@ public class Chapter {
         this.chapterNum = chapterNum;
     }
 
-    public void input(Reference reference) {
-        references.add(reference);
+    public void input(Reference inputRef) {
+        boolean hasMatch = false;
+        for (Reference ref : references) {
+            if (ref.getVerses().equals(inputRef.getVerses())) {
+                if (!ref.getEntry().equals(inputRef.getEntry())) {
+                    ref.appendEntry(inputRef.getEntry());
+                }
+                hasMatch = true;
+            }
+        }
+        if (!hasMatch) {
+            references.add(inputRef);
+        }
     }
 
     @Override
