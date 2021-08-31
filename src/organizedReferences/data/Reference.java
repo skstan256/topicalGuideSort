@@ -1,5 +1,8 @@
 package organizedReferences.data;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Reference implements Comparable<Reference> {
     private String verses;
     private String entry;
@@ -35,7 +38,20 @@ public class Reference implements Comparable<Reference> {
     @Override
     public int compareTo(Reference o) {
         if (!verses.equals(o.verses)) {
-            return verses.compareTo(o.verses);
+            /*
+            Matcher matcher = Pattern.compile("\\d+").matcher(s);
+matcher.find();
+int i = Integer.valueOf(matcher.group());
+             */
+
+            Matcher matcher = Pattern.compile("\\d+").matcher(verses);
+            matcher.find();
+            int firstNum = Integer.parseInt(matcher.group());
+
+            Matcher oMatcher = Pattern.compile("\\d+").matcher(o.verses);
+            oMatcher.find();
+            int oFirstNum = Integer.parseInt(oMatcher.group());
+            return Integer.compare(firstNum, oFirstNum);
         } else {
             return entry.compareTo(o.entry);
         }

@@ -2,13 +2,14 @@ package organizedReferences.data;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class Chapter {
     private int chapterNum;
     private Set<Reference> references;
 
     public Chapter(int chapterNum) {
-        references = new HashSet<>();
+        references = new TreeSet<>();
         this.chapterNum = chapterNum;
     }
 
