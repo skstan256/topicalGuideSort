@@ -19,10 +19,19 @@ public class Chapter {
 
     @Override
     public String toString() {
-         StringBuilder chapter = new StringBuilder("\t" + chapterNum + ":\n");
-         for (Reference ref: references) {
-             chapter.append("\t\t").append(ref.toString());
+         StringBuilder chapter = new StringBuilder("\t" + chapterNum + ":");
+         if (references.size() > 1) {
+             chapter.append("\n");
+             for (Reference ref: references) {
+                 chapter.append("\t\t").append(ref.toString());
+             }
          }
+         else {
+             for (Reference ref: references) {
+                 chapter.append(ref.toString());
+             }
+         }
+
          return chapter.toString();
     }
 }
