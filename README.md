@@ -1,1 +1,1 @@
-Functionality to sort all the scriptural references mentioned in Jesus Christ's entries in the Topical Guide (by order they appear in the scriptures).
+Functionality to sort all the scriptural references mentioned in Jesus Christ's entries in the Topical Guide (by the order they appear in the scriptures). For those interested in the results, here is a link to the [finished document](https://docs.google.com/document/d/1TchpGi09l5rrMYTNii9y092AnU_vsSqOGbQtqsRFR1c/edit?usp=sharing).
